@@ -1,0 +1,70 @@
+
+.indent {
+  margin-left: 20px;
+}
+
+.react-dropdown {
+  position: relative;
+  display: inline-block;
+  width: 40%;
+  margin: 10px;
+
+  .dropdown-content {
+    height: 400px;
+    display: none;
+    position: absolute;
+    z-index: 1;
+    overflow-y: scroll;
+    overflow-x: auto;
+    resize: vertical;
+    // background-color: gray;
+    width: 100%;
+    padding-left: 4px;
+    padding-right: 0px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+  }
+
+  .search {
+    background: gray;
+    font-family: inherit;
+    border: solid;
+    border-radius: 6px;
+    border-width: 1px;
+    border-color: white;
+    color: black;
+    font-size: inherit;
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    margin-top: 10px;
+
+    input {
+      background-color: transparent;
+      border-color: transparent;
+    }
+
+    input:focus {
+      outline: none;
+    }
+  }
+
+  .item {
+    &:hover {
+      background-color: grey;
+      cursor: pointer;
+    }
+  }
+
+  .dropdown-heading {
+    color: greenyellow;
+  }
+
+  .selected {
+    color: orange;
+    font-size: 2rem;
+    padding: 3px;
+    border: solid gray 2px;
+    cursor: pointer;
+  }
+}
