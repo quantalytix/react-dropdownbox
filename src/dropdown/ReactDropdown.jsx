@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Textbox from './Textbox';
-import './react-dropdown.scss';
+import './react-dropdown2.scss';
 
 export default class ReactDropdown extends Component {
   constructor(props) {
@@ -8,7 +8,9 @@ export default class ReactDropdown extends Component {
 
     this.state = {
       dropdownVisible: false,
-      textInput: 'enter text here'
+      textInput: 'enter text here',
+      activeIndex: 0,      
+      itemStack: []
     }
 
     this.handleOnSelected = this.handleOnSelected.bind(this);
@@ -16,36 +18,49 @@ export default class ReactDropdown extends Component {
     this.handleOnFocus = this.handleOnFocus.bind(this);
     this.handleOnChange = this.handleOnChange.bind(this);
     this.handleExitClick = this.handleExitClick.bind(this);
+
+    console.log(this.flattenDeep(this.props.data));
   }
+
+  flattenDeep(arr1) {
+    let array = arr1.reduce((acc, val) => Array.isArray(val.children) ? acc.concat(this.flattenDeep(val.children)) : acc.concat({node: NaN, value: val}), []);
+    for(let i = 0; i < array.length; i++) array[i].node = i;
+    return array;
+ }
 
   searchController({ textInput, dispatch }) {
-    return this.renderItems(this.props.data, dispatch)
+    return this.renderItems(this.props.data, dispatch, 0)
   }
 
-  renderItems(list, dispatch) {
+  renderItems(list, dispatch, index) {
     return list.map((item, key) => {
       if (item.children != null && item.children.length > 0) {
-        return this.renderGroup(item, key, dispatch)
-      } else {
-        return (
+        return this.renderGroup(item, key, dispatch, index)
+      } 
+      else {
+        index = index + 1;        
+        let selectItem = (          
           <div
-            className="item"
-            key={key}
+            className="dropdown-item"
+            key={key}            
             onClick={e => this.handleOnSelected(e.target.textContent)}
-            onKeyPress={e => dispatch({ type: "SET_VALUE" }, e.target.textContent)}>
-            {item.value}
+            //onKeyPress={e => dispatch({ type: "SET_VALUE" }, e.target.textContent)}
+            >
+            {item.value + ' ' + index} 
           </div>
-        )
+        );
+        return selectItem;
       }
     })
   }
 
-  renderGroup(item, key, dispatch) {
+  renderGroup(item, key, dispatch, index) {
+    index = index + 1;
     return (
       <div key={key}>
         <div className="dropdown-heading">{item.value.toUpperCase()}</div>
         <div className="indent">
-          {this.renderItems(item.children, dispatch)}
+          {this.renderItems(item.children, dispatch, index)}
         </div>
       </div>
     )
@@ -97,7 +112,7 @@ export default class ReactDropdown extends Component {
     }
 
     let dropdown = (dropdownVisible) ? (
-      <div style={resultStyle} onClick={this.handleClick} className="dropdown-content">
+      <div style={resultStyle} onClick={this.handleClick} className="dropdown-container">
         {this.searchController(this.state)}
       </div>
     ) : null;
