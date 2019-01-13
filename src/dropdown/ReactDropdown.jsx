@@ -70,31 +70,19 @@ export default class ReactDropdown extends Component {
         return this.renderGroup(item)
       }
       else {
-        if (this.state.activeIndex === item.node) {
-          let selectItem = (
-            <div
-              ref={this.selectedRef}
-              id={item.node}
-              className='dropdown-item-selected'
-              key={item.node}
-              onClick={e => this.handleOnSelected(item.node)} >
-              {item.value}
-            </div>
-          );
-          return selectItem;
-        }
-        else {
-          let selectItem = (
-            <div
-              id={item.node}
-              className='dropdown-item'
-              key={item.node}
-              onClick={e => this.handleOnSelected(item.node)} >
-              {item.value}
-            </div>
-          );
-          return selectItem;
-        }
+        let itemStyle = (this.state.activeIndex === item.node) ? 'dropdown-item-selected' : 'dropdown-item';
+        let selectItem = (
+          <div
+            ref={item.node}
+            id={item.node}
+            className={itemStyle}
+            key={item.node}
+            onClick={e => this.handleOnSelected(item.node)} >
+            {item.value}
+          </div>
+        );
+        return selectItem;
+
 
       }
     })
@@ -135,17 +123,22 @@ export default class ReactDropdown extends Component {
     if (e.keyCode === 38 && activeIndex > 0) {
       this.setState(prevState => ({
         activeIndex: prevState.activeIndex - 1
-      }))
-    } else if (e.keyCode === 40) {
+      }));
+      if (this.refs[this.state.activeIndex - 1] != null)
+        this.refs[this.state.activeIndex - 1].scrollIntoView({block: 'end', behavior: 'smooth'});
+    } 
+    else if (e.keyCode === 40) {
       this.setState(prevState => ({
         activeIndex: prevState.activeIndex + 1
-      }))
+      }));
+      if (this.refs[this.state.activeIndex + 1] != null)
+        this.refs[this.state.activeIndex + 1].scrollIntoView({block: 'end', behavior: 'smooth'});
     }
 
-    
+
     //console.log(this.selectedRef);
-    if (this.selectedRef.current !== null)
-      this.selectedRef.current.scrollIntoView(true);
+    
+      //this.refs[this.state.activeIndex].current.scrollIntoView(true);
 
   }
 
