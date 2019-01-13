@@ -28,10 +28,7 @@ export default class ReactDropdown extends Component {
       //itemStack: selectables,
       count: count,
       internalData: internalData
-    }
-
-    this.rootRef = React.createRef();
-    this.selectedRef = React.createRef();
+    }        
   }
 
   flattenDeep(arr1) {
@@ -134,12 +131,6 @@ export default class ReactDropdown extends Component {
       if (this.refs[this.state.activeIndex + 1] != null)
         this.refs[this.state.activeIndex + 1].scrollIntoView({block: 'end', behavior: 'smooth'});
     }
-
-
-    //console.log(this.selectedRef);
-    
-      //this.refs[this.state.activeIndex].current.scrollIntoView(true);
-
   }
 
   handleOnChange(e) {
@@ -174,7 +165,7 @@ export default class ReactDropdown extends Component {
 
     let dropdown = (dropdownVisible) ? (
       // <div style={resultStyle} onClick={this.handleClick} className="dropdown-container">      
-      <div style={resultStyle} className="dropdown-container" onKeyDown={this.handleOnKeyDown} ref={this.rootRef}>
+      <div style={resultStyle} className="dropdown-container" onKeyDown={this.handleOnKeyDown}>
         {this.searchController(this.state)}
       </div>
     ) : null;
