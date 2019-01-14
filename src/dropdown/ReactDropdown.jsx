@@ -86,7 +86,11 @@ export default class ReactDropdown extends Component {
     return (
       <div className="react-dropdown" onFocus={this.handleOnFocus} onChange={this.handleOnChange} onKeyDown={this.handleOnKeyDown} >
         <div className="search">
-          <Textbox className="search-box" value={this.state.textInput} /><button tabIndex="-1" className="search-dd">open</button>
+          <Textbox className="search-box" value={this.state.textInput} />
+          <div tabIndex="-1" className="search-dd">
+            <span className='arrow-up'></span>
+            <span className='arrow-down'></span>
+          </div>
         </div>
         {dropdown}
       </div>

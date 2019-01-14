@@ -31,7 +31,7 @@ class App extends Component {
     ]
 
     return (
-      <div className="App">
+      <div className="App" style={{ height: '100vh', background: '#1A1A1A'}}>
         <ReactDropdown data={sampleList} />
       </div>
     );
