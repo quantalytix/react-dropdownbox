@@ -1,0 +1,29 @@
+
+class ReactDropdownHelper {
+  flattenData(arr1) {
+    // flatten object array to include items and identify group objects in 
+    // a single dimension array
+    let array = arr1.reduce((acc, val) => Array.isArray(val.children) ? acc.concat({ node: val.node, isGroup: true, key: val.key, value: val.value }, this.flattenData(val.children)) : acc.concat({ node: val.node, key: val.key, value: val }), []);
+    return array;
+  }
+
+  createInternalNodeArray(arr1, count = 0) {
+    let array = []
+    for (let i = 0; i < arr1.length; i++) {
+      let item = this.createItemNode(count, arr1[i]);
+      count = count + 1;
+      if (Array.isArray(arr1[i].children)) {
+        var result = this.createInternalNodeArray(arr1[i].children, count);
+        item.children = result.array;
+        count = result.count;
+      }
+      array.push(item);
+    }
+    return { array: array, count: count };
+  }
+
+  createItemNode(id, item) {
+    return { node: id, children: null, value: item.value, key: item.key };
+  };
+}
+export { ReactDropdownHelper };

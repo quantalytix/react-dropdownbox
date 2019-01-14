@@ -1,31 +1,26 @@
 import React, { Component } from 'react';
 import Textbox from './Textbox';
+import { ReactDropdownHelper } from './ReactDropdownHelper';
+import { ReactDropdownRenderProps } from './ReactDropdownRender';
 import './react-dropdown2.scss';
-
-/*
-  states:
-    1. Not focused
-    2. Focused but dropdown not shown
-    3. focused and dropdown shown
-*/
 
 export default class ReactDropdown extends Component {
   constructor(props) {
     super(props);
 
-    this.handleOnSelected = this.handleOnSelected.bind(this);
-    this.handleOnBlur = this.handleOnBlur.bind(this);
+    this.handleOnSelected = this.handleOnSelected.bind(this);    
     this.handleOnFocus = this.handleOnFocus.bind(this);
-    this.handleOnChange = this.handleOnChange.bind(this);
-    this.handleExitClick = this.handleExitClick.bind(this);
-
+    this.handleOnChange = this.handleOnChange.bind(this);    
     this.handleOnKeyDown = this.handleOnKeyDown.bind(this);
 
-    let result = this.createInternalItemArray(this.props.data);
+    let helper = new ReactDropdownHelper();
+    let render = new ReactDropdownRenderProps();
+
+    let result = helper.createInternalNodeArray(this.props.data);
     let internalData = result.array;
     let count = result.count;
 
-    let selectables = this.flattenDeep(internalData);
+    let selectables = helper.flattenData(internalData);
 
     this.state = {
       dropdownVisible: false,
@@ -35,85 +30,65 @@ export default class ReactDropdown extends Component {
       selectedKey: null,
       itemStack: selectables,
       count: count,
-      internalData: internalData
+      internalData: internalData,
+
+      filter: null, // filter function      
+      renderGroup: render.renderGroup, // render prop
+      renderItem: render.renderItem, // render prop
+      renderSelected: null // render prop
     }
   }
-
-  flattenDeep(arr1) {
-    // flatten object array to include items and identify group objects in 
-    // a single dimension array
-    let array = arr1.reduce((acc, val) => Array.isArray(val.children) ? acc.concat({ node: val.node, isGroup: true, key: val.key, value: val.value }, this.flattenDeep(val.children)) : acc.concat({ node: val.node, key: val.key, value: val }), []);
-    return array;
+    
+  renderNodeItem(item) {
+    let itemStyle = (this.state.activeIndex === item.node) ? 'dropdown-item-selected' : 'dropdown-item';
+    let selectItem = (
+      <div
+        ref={item.node}
+        id={item.node}
+        item={item}
+        className={itemStyle}
+        key={item.node}
+        onClick={e => this.handleOnSelected(item)} 
+        onMouseOver={e => this.handleOnMouseOver(item)}
+        >
+        {this.state.renderItem(item, this.state)}
+      </div>
+    );
+    return selectItem;
   }
 
-  createInternalItemArray(arr1, count = 0) {
-    let array = []
-    for (let i = 0; i < arr1.length; i++) {
-      let item = this.createItemNode(count, arr1[i]);
-      count = count + 1;
-      if (Array.isArray(arr1[i].children)) {
-        var result = this.createInternalItemArray(arr1[i].children, count);
-        item.children = result.array;
-        count = result.count;
-      }
-      array.push(item);
-    }
-    return { array: array, count: count };
-  }
-
-  createItemNode(id, item) {
-    return { node: id, children: null, value: item.value, key: item.key };
-  }
-
-  searchController({ textInput, dispatch }) {
-    return this.renderItems(this.state.internalData, dispatch)
-  }
-
-  renderItems(list, dispatch) {
+  renderDropdown(list) {
     return list.map((item, key) => {
       if (item.children != null && item.children.length > 0) {
-        return this.renderGroup(item)
+        return this.state.renderGroup(item, this.state, this.renderDropdown(item.children));
       }
       else {
-        let itemStyle = (this.state.activeIndex === item.node) ? 'dropdown-item-selected' : 'dropdown-item';
-        let selectItem = (
-          <div
-            ref={item.node}
-            id={item.node}
-            item={item}
-            className={itemStyle}
-            key={item.node}
-            onClick={e => this.handleOnSelected(item)} >
-            {item.value}
-          </div>
-        );
-        return selectItem;
+        return this.renderNodeItem(item);
       }
     })
   }
 
-  renderGroup(item) {
-    return (
-      <div key={item.node}>
-        <div className="dropdown-heading">{item.value.toUpperCase()}</div>
-        <div className="indent">
-          {this.renderItems(item.children)}
-        </div>
+  render() {
+    const { dropdownVisible } = this.state
+
+    let resultStyle = {
+      display: (dropdownVisible) ? 'block' : 'none'
+    }
+
+    let dropdown = (dropdownVisible) ? (
+      <div style={resultStyle} className="dropdown-container" tabIndex="0">
+        {this.renderDropdown(this.state.internalData)}
       </div>
-    )
-  }
+    ) : null;
 
-  handleExitClick = (e) => {
-    this.setState({
-      display: 'none',
-      focused: false,
-      textInput: ''
-    });
-    console.log('handleExitClick(e)');
-  }
-
-  handleOnSelected(e) {    
-    this.setSelectedValue(e.node);
+    return (
+      <div className="react-dropdown" onFocus={this.handleOnFocus} onChange={this.handleOnChange} onKeyDown={this.handleOnKeyDown} >
+        <div className="search">
+          <Textbox className="search-box" value={this.state.textInput} /><button tabIndex="-1" className="search-dd">open</button>
+        </div>
+        {dropdown}
+      </div>
+    );
   }
 
   getActiveItemRef(index) {
@@ -128,8 +103,8 @@ export default class ReactDropdown extends Component {
     this.setState({ dropdownVisible: false });
   }
 
-  setSelectedValue(index) {    
-    let itemData = this.state.itemStack[index];    
+  setSelectedValue(index) {
+    let itemData = this.state.itemStack[index];
     if (itemData) {
       this.setState({
         selectedIndex: index,
@@ -139,33 +114,33 @@ export default class ReactDropdown extends Component {
     }
   }
 
-  setActiveItem(index, item) {    
-    this.setState(prevState => ({      
+  setActiveItem(index, item) {
+    this.setState(prevState => ({
       activeIndex: index,
       textInput: item.value.value
     }));
   }
 
   scrollIntoViewItem(refItem) {
-    refItem.scrollIntoView({ block: 'end', behavior: 'smooth' });      
+    if(refItem != null)
+      refItem.scrollIntoView({ block: 'end', behavior: 'smooth' });
   }
 
-  resetSelection(){
+  resetSelection() {
     this.setSelectedValue(this.state.selectedIndex);
   }
 
   setActiveIndex(index) {
-    this.setState(prevState => ({        
+    this.setState(prevState => ({
       activeIndex: index
     }));
   }
 
   moveActiveIndex(currentIndex, i) {
-    let index = currentIndex + i;   
+    let index = currentIndex + i;
     let newItemRef = this.getActiveItemRef(index);
-    if (newItemRef != null) {      
+    if (newItemRef != null) {
       let item = this.state.itemStack[index];
-      console.log(item);
       this.setActiveItem(index, item);
       this.scrollIntoViewItem(newItemRef);
     }
@@ -176,27 +151,23 @@ export default class ReactDropdown extends Component {
     }
   }
 
-  moveActiveIndexDown() {
-
-  }
 
   handleOnKeyDown(e) {
     //console.log(e.target);
     const { activeIndex, count } = this.state
 
+    // check if dropdown is open; if not open and bail
     if (!this.state.dropdownVisible) {
-      this.setState({ dropdownVisible: true });
+      this.openDropdown();
       return;
     }
     //escape
     if (e.keyCode === 27) {
-      console.log('escape key has been pressed');      
       this.resetSelection();
       this.closeDropdown();
     }
     //enter
     if (e.keyCode === 13) {
-      console.log('enter key has been pressed');
       this.setSelectedValue(this.state.activeIndex);
       this.closeDropdown();
     }
@@ -225,37 +196,35 @@ export default class ReactDropdown extends Component {
     console.log('handleChange(e)');
   }
 
-
   handleOnFocus(e) {
     this.openDropdown();
   }
 
-  handleOnBlur(e) {
+  handleOnSelected(e) {
+    this.setSelectedValue(e.node);
     this.closeDropdown();
-    console.log('handleOnBlur(e)');    
+  }
+
+  handleOnMouseOver(item) {
+    let i = this.state.itemStack[item.node];
+    this.setActiveItem(item.node, i);
+  }
+
+  componentDidMount() {
+    document.addEventListener('click', this.handleClick);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('click', this.handleClick);
+  }
+
+  handleClick = (e) => {
+    let found = e.path.find(el => el.className === "react-dropdown")
+    if (!!!found) {
+      this.closeDropdown();
+    }
   }
 
   //https://codepen.io/takatama/pen/mVvbqx
-  render() {
-    const { dropdownVisible } = this.state
-
-    let resultStyle = {
-      display: (dropdownVisible) ? 'block' : 'none'
-    }
-
-    let dropdown = (dropdownVisible) ? (
-      <div style={resultStyle} className="dropdown-container" tabIndex="0">
-        {this.searchController(this.state)}
-      </div>
-    ) : null;
-
-    return (
-      <div className="react-dropdown" onFocus={this.handleOnFocus} onChange={this.handleOnChange} onKeyDown={this.handleOnKeyDown} >
-        <div className="search">
-          <Textbox className="search-box" value={this.state.textInput} /><button tabIndex="-1" className="search-dd">open</button>
-        </div>
-        {dropdown}
-      </div>
-    );
-  }
+  
 }
