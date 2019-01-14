@@ -4,7 +4,7 @@ class ReactDropdownHelper {
     // flatten object array to include items and identify group objects in 
     // a single dimension array
     let reducer = (acc, val) => {
-      if (val.children) {
+      if (Array.isArray(val.children)) {
         return acc.concat(
           { 
             node: val.node, 
@@ -33,9 +33,7 @@ class ReactDropdownHelper {
     arr1.forEach(itemObj => {
       let item = this.createItemNode(count, itemObj)
       count += 1
-      // would the children ever not be an array?
-      // if (Array.isArray(itemObj.children)) {
-      if (itemObj.children) {
+      if (Array.isArray(itemObj.children)) {
         let result = this.createInternalNodeArray(itemObj.children, count)
         item.children = result.array
         count = result.count
