@@ -9,16 +9,18 @@ class ReactDropdownHelper {
 
   createInternalNodeArray(arr1, count = 0) {
     let array = []
-    for (let i = 0; i < arr1.length; i++) {
-      let item = this.createItemNode(count, arr1[i]);
-      count = count + 1;
-      if (Array.isArray(arr1[i].children)) {
-        var result = this.createInternalNodeArray(arr1[i].children, count);
-        item.children = result.array;
-        count = result.count;
+    arr1.forEach(itemObj => {
+      let item = this.createItemNode(count, itemObj)
+      count += 1
+      // would the children ever not be an array?
+      // if (Array.isArray(itemObj.children)) {
+      if (itemObj.children) {
+        let result = this.createInternalNodeArray(itemObj.children, count)
+        item.children = result.array
+        count = result.count
       }
-      array.push(item);
-    }
+      array.push(item)
+    })
     return { array: array, count: count };
   }
 
