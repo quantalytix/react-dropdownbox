@@ -60,9 +60,9 @@ export default class Textbox extends Component {
 
     return (
       <div id="container" style={containerStyle} className={this.props.className} tabIndex={this.props.tabIndex} onFocus={this.handleOnFocus} >
-        <div className='result-div' style={itemStyle}>{this.props.value}</div>
+        <div className='result-div' style={itemStyle}>{this.props.value || this.props.placeholder}</div>
         <div style={inputStyle}>
-          <input className='input-box' ref={this.textInput} value={this.props.value} onChange={this.handleChange} onBlur={this.handleOnBlur} tabIndex="0" />
+          <input className='input-box' placeholder={this.props.placeholder} ref={this.textInput} value={this.props.value} onChange={this.handleChange} onBlur={this.handleOnBlur} tabIndex="0" />
         </div>
       </div>
     );
@@ -70,7 +70,6 @@ export default class Textbox extends Component {
 }
 
 Textbox.defaultProps = {
-  value : 'new text',
   tabIndex: 0
 };
 
