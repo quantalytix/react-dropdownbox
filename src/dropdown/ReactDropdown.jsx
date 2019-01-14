@@ -1,7 +1,13 @@
 import React, { Component } from 'react';
 import Textbox from './Textbox';
 import './react-dropdown2.scss';
-import computeScrollIntoView from 'compute-scroll-into-view';
+
+/*
+  states:
+    1. Not focused
+    2. Focused but dropdown not shown
+    3. focused and dropdown shown
+*/
 
 export default class ReactDropdown extends Component {
   constructor(props) {
@@ -19,16 +25,18 @@ export default class ReactDropdown extends Component {
     let internalData = result.array;
     let count = result.count;
 
-    //let selectables = this.flattenDeep(internalData);
+    let selectables = this.flattenDeep(internalData);
 
     this.state = {
       dropdownVisible: false,
       textInput: 'enter text here',
       activeIndex: 0,
-      //itemStack: selectables,
+      selectedIndex: null,
+      selectedKey: null,
+      itemStack: selectables,
       count: count,
       internalData: internalData
-    }        
+    }
   }
 
   flattenDeep(arr1) {
@@ -72,15 +80,14 @@ export default class ReactDropdown extends Component {
           <div
             ref={item.node}
             id={item.node}
+            item={item}
             className={itemStyle}
             key={item.node}
-            onClick={e => this.handleOnSelected(item.node)} >
+            onClick={e => this.handleOnSelected(item)} >
             {item.value}
           </div>
         );
         return selectItem;
-
-
       }
     })
   }
@@ -105,33 +112,111 @@ export default class ReactDropdown extends Component {
     console.log('handleExitClick(e)');
   }
 
-  handleOnSelected(e) {
-    //console.log(e);
-    this.setState({
-      activeIndex: e
-      //textInput: e,
-      //dropdownVisible: false
-    });
+  handleOnSelected(e) {    
+    this.setSelectedValue(e.node);
+  }
+
+  getActiveItemRef(index) {
+    return this.refs[index];
+  }
+
+  openDropdown() {
+    this.setState({ dropdownVisible: true });
+  }
+
+  closeDropdown() {
+    this.setState({ dropdownVisible: false });
+  }
+
+  setSelectedValue(index) {    
+    let itemData = this.state.itemStack[index];    
+    if (itemData) {
+      this.setState({
+        selectedIndex: index,
+        selectedKey: itemData.key,
+        textInput: itemData.value.value
+      });
+    }
+  }
+
+  setActiveItem(index, item) {    
+    this.setState(prevState => ({      
+      activeIndex: index,
+      textInput: item.value.value
+    }));
+  }
+
+  scrollIntoViewItem(refItem) {
+    refItem.scrollIntoView({ block: 'end', behavior: 'smooth' });      
+  }
+
+  resetSelection(){
+    this.setSelectedValue(this.state.selectedIndex);
+  }
+
+  deincrementActiveIndex() {
+    this.setState(prevState => ({        
+      activeIndex: prevState.activeIndex - 1
+    }));
+  }
+
+  moveActiveIndex(currentIndex, i) {
+    let index = currentIndex + i;   
+    let newItemRef = this.getActiveItemRef(index);
+    if (newItemRef != null) {      
+      let item = this.state.itemStack[index];
+      console.log(item);
+      this.setActiveItem(index, item);
+      this.scrollIntoViewItem(newItemRef);
+    }
+    else {
+      let currentRef = this.getActiveItemRef(currentIndex);
+      this.scrollIntoViewItem(currentRef);
+      this.deincrementActiveIndex()
+    }
+  }
+
+  moveActiveIndexDown() {
+
   }
 
   handleOnKeyDown(e) {
-    console.log(e.target.value);
-    const { activeIndex } = this.state
+    //console.log(e.target);
+    const { activeIndex, count } = this.state
+
+    if (!this.state.dropdownVisible) {
+      this.setState({ dropdownVisible: true });
+      return;
+    }
+    //escape
+    if (e.keyCode === 27) {
+      console.log('escape key has been pressed');      
+      this.resetSelection();
+      this.closeDropdown();
+    }
+    //enter
+    if (e.keyCode === 13) {
+      console.log('enter key has been pressed');
+      this.setSelectedValue(this.state.activeIndex);
+      this.closeDropdown();
+    }
+    //tab
+    if (e.keyCode === 9) {
+      this.setSelectedValue(this.state.activeIndex);
+      this.closeDropdown();
+    }
+    //up
     if (e.keyCode === 38 && activeIndex > 0) {
-      this.setState(prevState => ({
-        activeIndex: prevState.activeIndex - 1
-      }));
-      if (this.refs[this.state.activeIndex - 1] != null)
-        this.refs[this.state.activeIndex - 1].scrollIntoView({block: 'end', behavior: 'smooth'});
-    } 
-    else if (e.keyCode === 40) {
-      this.setState(prevState => ({
-        activeIndex: prevState.activeIndex + 1
-      }));
-      if (this.refs[this.state.activeIndex + 1] != null)
-        this.refs[this.state.activeIndex + 1].scrollIntoView({block: 'end', behavior: 'smooth'});
+      this.openDropdown();
+      this.moveActiveIndex(activeIndex, -1);
+    }
+    //down
+    else if (e.keyCode === 40 && activeIndex < count - 1) {
+      this.openDropdown();
+      this.moveActiveIndex(activeIndex, 1);
     }
   }
+
 
   handleOnChange(e) {
     this.setState({
@@ -140,19 +225,14 @@ export default class ReactDropdown extends Component {
     console.log('handleChange(e)');
   }
 
+
   handleOnFocus(e) {
-    this.setState({
-      dropdownVisible: true
-    });
-    console.log('handleOnFocus(e)');
+    this.openDropdown();
   }
 
   handleOnBlur(e) {
-    this.setState({
-      dropdownVisible: false
-    });
-    console.log('handleOnBlur(e)');
-    //console.log(document.activeElement.className);
+    this.closeDropdown();
+    console.log('handleOnBlur(e)');    
   }
 
   //https://codepen.io/takatama/pen/mVvbqx
@@ -164,16 +244,15 @@ export default class ReactDropdown extends Component {
     }
 
     let dropdown = (dropdownVisible) ? (
-      // <div style={resultStyle} onClick={this.handleClick} className="dropdown-container">      
-      <div style={resultStyle} className="dropdown-container" onKeyDown={this.handleOnKeyDown}>
+      <div style={resultStyle} className="dropdown-container" tabIndex="0">
         {this.searchController(this.state)}
       </div>
     ) : null;
 
     return (
-      <div className="react-dropdown" onFocus={this.handleOnFocus} onKeyDown={this.handleOnKeyDown} >
+      <div className="react-dropdown" onFocus={this.handleOnFocus} onChange={this.handleOnChange} onKeyDown={this.handleOnKeyDown} >
         <div className="search">
-          <Textbox value={this.state.textInput} />
+          <Textbox className="search-box" value={this.state.textInput} /><button tabIndex="-1" className="search-dd">open</button>
         </div>
         {dropdown}
       </div>

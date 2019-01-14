@@ -22,9 +22,22 @@
 
   .dropdown-item {
     background-color: aqua;
+    cursor: pointer;
   }
 
   .dropdown-item-selected {
     background-color: magenta;
+    cursor: pointer;
+  }
+
+  .search {
+    display: grid;
+    grid-template-columns: auto auto;
+  }
+  .search-box{
+    grid-column-start: 1;
+  }
+  .search-dd {
+    grid-column-start: 2;
   }
 }
