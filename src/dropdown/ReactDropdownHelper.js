@@ -8,7 +8,7 @@ class ReactDropdownHelper {
   }
 
   createInternalNodeArray(arr1, count = 0) {
-    let array = []
+    let internalNodeArray = []
     arr1.forEach(itemObj => {
       let item = this.createItemNode(count, itemObj)
       count += 1
@@ -19,9 +19,9 @@ class ReactDropdownHelper {
         item.children = result.array
         count = result.count
       }
-      array.push(item)
+      internalNodeArray.push(item)
     })
-    return { array: array, count: count };
+    return { array: internalNodeArray, count: count };
   }
 
   createItemNode(id, item) {
