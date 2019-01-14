@@ -47,6 +47,7 @@ export default class Textbox extends Component {
     }
 
     let inputStyle = {
+      width: '100%',
       position: 'absolute',
       zIndex: (this.state.focused) ? 1 : 0,
       opacity: (this.state.focused) ? 1 : 0,
@@ -59,9 +60,9 @@ export default class Textbox extends Component {
 
     return (
       <div id="container" style={containerStyle} className={this.props.className} tabIndex={this.props.tabIndex} onFocus={this.handleOnFocus} >
-        <div style={itemStyle}>{this.props.value}</div>
+        <div className='result-div' style={itemStyle}>{this.props.value || this.props.placeholder}</div>
         <div style={inputStyle}>
-          <input ref={this.textInput} value={this.props.value} onChange={this.handleChange} onBlur={this.handleOnBlur} tabIndex="0" />
+          <input className='input-box' placeholder={this.props.placeholder} ref={this.textInput} value={this.props.value} onChange={this.handleChange} onBlur={this.handleOnBlur} tabIndex="0" />
         </div>
       </div>
     );
@@ -69,7 +70,6 @@ export default class Textbox extends Component {
 }
 
 Textbox.defaultProps = {
-  value : 'new text',
   tabIndex: 0
 };
 

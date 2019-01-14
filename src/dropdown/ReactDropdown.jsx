@@ -19,12 +19,13 @@ export default class ReactDropdown extends Component {
     let result = helper.createInternalNodeArray(this.props.data);
     let internalData = result.array;
     let count = result.count;
-
+    console.log(internalData)
     let selectables = helper.flattenData(internalData);
+    console.log(selectables)
 
     this.state = {
       dropdownVisible: false,
-      textInput: 'enter text here',
+      textInput: null,
       activeIndex: 0,
       selectedIndex: null,
       selectedKey: null,
@@ -32,7 +33,8 @@ export default class ReactDropdown extends Component {
       count: count,
       internalData: internalData,
 
-      filter: null, // filter function      
+      filter: null, // filter function  
+      // why save these to state?    
       renderGroup: render.renderGroup, // render prop
       renderItem: render.renderItem, // render prop
       renderSelected: null // render prop
@@ -84,7 +86,11 @@ export default class ReactDropdown extends Component {
     return (
       <div className="react-dropdown" onFocus={this.handleOnFocus} onChange={this.handleOnChange} onKeyDown={this.handleOnKeyDown} >
         <div className="search">
-          <Textbox className="search-box" value={this.state.textInput} /><button tabIndex="-1" className="search-dd">open</button>
+          <Textbox className="search-box" placeholder={this.props.placeholder} value={this.state.textInput} />
+          <div tabIndex="-1" className="search-dd">
+            <span className='arrow-up'></span>
+            <span className='arrow-down'></span>
+          </div>
         </div>
         {dropdown}
       </div>
