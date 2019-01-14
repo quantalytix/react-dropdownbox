@@ -154,9 +154,9 @@ export default class ReactDropdown extends Component {
     this.setSelectedValue(this.state.selectedIndex);
   }
 
-  deincrementActiveIndex() {
+  setActiveIndex(index) {
     this.setState(prevState => ({        
-      activeIndex: prevState.activeIndex - 1
+      activeIndex: index
     }));
   }
 
@@ -172,7 +172,7 @@ export default class ReactDropdown extends Component {
     else {
       let currentRef = this.getActiveItemRef(currentIndex);
       this.scrollIntoViewItem(currentRef);
-      this.deincrementActiveIndex()
+      this.setActiveIndex(index);
     }
   }
 
