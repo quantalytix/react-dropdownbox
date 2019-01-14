@@ -8,6 +8,10 @@ $dropdown-color: #383838;
   box-sizing: border-box;
 
   .dropdown-container {
+    background: rgb(26, 26, 26);
+    font-weight: bold;
+    opacity: .9;
+    color: white;
     height: 200px;
     display: none;
     position: absolute;
@@ -20,15 +24,17 @@ $dropdown-color: #383838;
     padding-right: 0px;
     padding-top: 4px;
     padding-bottom: 4px;
+    box-sizing: border-box;
   }
 
   .dropdown-item {
-    background-color: aqua;
+    font-weight: lighter;
     cursor: pointer;
   }
 
   .dropdown-item-selected {
-    background-color: magenta;
+    font-weight: lighter;
+    background-color: #a072fc;
     cursor: pointer;
   }
 
