@@ -25,7 +25,7 @@ export default class ReactDropdown extends Component {
 
     this.state = {
       dropdownVisible: false,
-      textInput: 'enter text here',
+      textInput: null,
       activeIndex: 0,
       selectedIndex: null,
       selectedKey: null,
@@ -86,7 +86,7 @@ export default class ReactDropdown extends Component {
     return (
       <div className="react-dropdown" onFocus={this.handleOnFocus} onChange={this.handleOnChange} onKeyDown={this.handleOnKeyDown} >
         <div className="search">
-          <Textbox className="search-box" value={this.state.textInput} />
+          <Textbox className="search-box" placeholder={this.props.placeholder} value={this.state.textInput} />
           <div tabIndex="-1" className="search-dd">
             <span className='arrow-up'></span>
             <span className='arrow-down'></span>
