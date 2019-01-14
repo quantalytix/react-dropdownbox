@@ -3,9 +3,31 @@ class ReactDropdownHelper {
   flattenData(arr1) {
     // flatten object array to include items and identify group objects in 
     // a single dimension array
-    let array = arr1.reduce((acc, val) => Array.isArray(val.children) ? acc.concat({ node: val.node, isGroup: true, key: val.key, value: val.value }, this.flattenData(val.children)) : acc.concat({ node: val.node, key: val.key, value: val }), []);
-    return array;
+    let reducer = (acc, val) => {
+      debugger
+      if (val.children) {
+        return acc.concat(
+          { 
+            node: val.node, 
+            isGroup: true, 
+            key: val.key, 
+            value: val.value 
+          }, 
+          this.flattenData(val.children)
+        )
+      } else {
+        return acc.concat(
+          { 
+            node: val.node, 
+            key: val.key, 
+            value: val 
+          }
+        )
+      }
+    }
+    return arr1.reduce(reducer, [])
   }
+
 
   createInternalNodeArray(arr1, count = 0) {
     let internalNodeArray = []
