@@ -19,8 +19,9 @@ export default class ReactDropdown extends Component {
     let result = helper.createInternalNodeArray(this.props.data);
     let internalData = result.array;
     let count = result.count;
-
+    console.log(internalData)
     let selectables = helper.flattenData(internalData);
+    console.log(selectables)
 
     this.state = {
       dropdownVisible: false,
@@ -32,7 +33,8 @@ export default class ReactDropdown extends Component {
       count: count,
       internalData: internalData,
 
-      filter: null, // filter function      
+      filter: null, // filter function  
+      // why save these to state?    
       renderGroup: render.renderGroup, // render prop
       renderItem: render.renderItem, // render prop
       renderSelected: null // render prop

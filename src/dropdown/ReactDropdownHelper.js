@@ -4,7 +4,6 @@ class ReactDropdownHelper {
     // flatten object array to include items and identify group objects in 
     // a single dimension array
     let reducer = (acc, val) => {
-      debugger
       if (val.children) {
         return acc.concat(
           { 
