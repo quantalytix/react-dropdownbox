@@ -3,7 +3,7 @@ $dropdown-color: #383838;
 .react-dropdown {
   position: relative;
   display: inline-block;
-  width: 40%;
+  width: 100%;
   margin: 10px;
   box-sizing: border-box;
 
@@ -73,6 +73,9 @@ $dropdown-color: #383838;
     flex-direction: column;
     top: 4px;
     margin-right: 5px;
+    &:focus {
+      outline: none;
+    }
     .arrow-up {
       width: 0; 
       height: 0; 
