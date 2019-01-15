@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
+//import ReactDOM from 'react-dom';
 import Textbox from './Textbox';
 import { ReactDropdownHelper } from './ReactDropdownHelper';
 import { ReactDropdownRenderProps } from './ReactDropdownRender';
@@ -26,7 +26,7 @@ export default class ReactDropdown extends Component {
 
     this.state = {
       dropdownVisible: false,
-      textInput: null,
+      textInput: '',
       activeIndex: 0,
       selectedIndex: null,
       selectedKey: null,
