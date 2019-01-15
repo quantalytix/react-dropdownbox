@@ -22,9 +22,7 @@ export default class ReactDropdown extends Component {
     let result = helper.createInternalNodeArray(this.props.data);
     let internalData = result.array;
     let count = result.count;
-    console.log(internalData)
     let selectables = helper.flattenData(internalData);
-    console.log(selectables)
 
     this.state = {
       dropdownVisible: false,
@@ -269,15 +267,8 @@ export default class ReactDropdown extends Component {
       this.resetSelection();
     }
     */
-    
-    // if there are multiple dropdowns rendered on a single page
-    // will this logic create a problem?
-    // let found = e.path.find(el => el.className === "react-dropdown")
-    // if (!!!found) {
-    //   this.closeDropdown();
-    //   this.resetSelection();
-    // }
-    if (this.node.contains(e.target)) {
+    let found = e.path.find(el => el.className === "react-dropdown")
+    if (found && this.node.contains(e.target)) {
       return
     }
     this.closeDropdown();
