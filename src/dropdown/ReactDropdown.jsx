@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 import Textbox from './Textbox';
 import { ReactDropdownHelper } from './ReactDropdownHelper';
 import { ReactDropdownRenderProps } from './ReactDropdownRender';
@@ -84,7 +85,7 @@ export default class ReactDropdown extends Component {
     ) : null;
 
     return (
-      <div className="react-dropdown" onFocus={this.handleOnFocus} onChange={this.handleOnChange} onKeyDown={this.handleOnKeyDown} >
+      <div ref="dropdownbox" className="react-dropdown" onFocus={this.handleOnFocus} onChange={this.handleOnChange} onKeyDown={this.handleOnKeyDown} >
         <div className="search">
           <Textbox className="search-box" placeholder={this.props.placeholder} value={this.state.textInput} />
           <div tabIndex="-1" className="search-dd">
@@ -237,9 +238,20 @@ export default class ReactDropdown extends Component {
     document.removeEventListener('click', this.handleClick);
   }
 
-  // if there are multiple dropdowns rendered on a single page
-  // will this logic create a problem?
+  
   handleClick = (e) => {
+    /*
+    // we can use a forwardRef to potentially solve this...
+    console.log(ReactDOM.findDOMNode(this.refs.dropdownbox)); // <div class="react-dropdown">...</div>
+    console.log(document.activeElement); // <input class="input-box" placeholder="" ...>
+    if (document.activeElement !== ReactDOM.findDOMNode(this.refs.dropdownbox)) {
+      this.closeDropdown();
+      this.resetSelection();
+    }
+    */
+    
+    // if there are multiple dropdowns rendered on a single page
+    // will this logic create a problem?
     let found = e.path.find(el => el.className === "react-dropdown")
     if (!!!found) {
       this.closeDropdown();

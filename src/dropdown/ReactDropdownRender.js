@@ -4,7 +4,7 @@ class ReactDropdownRenderProps {
   renderItem(item, state) {    
     let selectItem = (
       <div>
-        {item.value}
+        {item.text}
       </div>
     );
     return selectItem;
@@ -13,12 +13,16 @@ class ReactDropdownRenderProps {
   renderGroup(item, state, children) {
     return (
       <div key={item.node}>
-        <div className="dropdown-heading">{item.value.toUpperCase()}</div>
+        <div className="dropdown-heading">{item.text.toUpperCase()}</div>
         <div className="indent">
           {children}
         </div>
       </div>
     )
+  }
+
+  renderSelected(item,state) {
+    return (<b>item.text</b>);
   }
 }
 export { ReactDropdownRenderProps };

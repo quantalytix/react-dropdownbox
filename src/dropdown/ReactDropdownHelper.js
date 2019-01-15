@@ -10,7 +10,8 @@ class ReactDropdownHelper {
             node: val.node, 
             isGroup: true, 
             key: val.key, 
-            value: val.value 
+            value: val.value,
+            text: val.text
           }, 
           this.flattenData(val.children)
         )
@@ -19,7 +20,8 @@ class ReactDropdownHelper {
           { 
             node: val.node, 
             key: val.key, 
-            value: val 
+            value: val ,
+            text: val.text
           }
         )
       }
@@ -44,7 +46,7 @@ class ReactDropdownHelper {
   }
 
   createItemNode(id, item) {
-    return { node: id, children: null, value: item.value, key: item.key };
+    return { node: id, children: null, text: item.text, value: item.value, key: item.key };
   };
 }
 export { ReactDropdownHelper };
