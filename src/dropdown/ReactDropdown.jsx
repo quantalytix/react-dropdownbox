@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 //import ReactDOM from 'react-dom';
 import Textbox from './Textbox';
 import { ReactDropdownHelper } from './ReactDropdownHelper';
-import { ReactDropdownRenderProps } from './ReactDropdownRender';
+import { renderItem, renderGroup, renderSelected } from './ReactDropdownRender';
 import { ReactDropdownFilter } from './ReactDropdownFilter';
 import './react-dropdown2.scss';
 
@@ -16,7 +16,6 @@ export default class ReactDropdown extends Component {
     this.handleOnKeyDown = this.handleOnKeyDown.bind(this);
 
     let helper = new ReactDropdownHelper();
-    let render = new ReactDropdownRenderProps();
     let filter = new ReactDropdownFilter();
 
     let result = helper.createInternalNodeArray(this.props.data);
@@ -35,11 +34,6 @@ export default class ReactDropdown extends Component {
       internalData: internalData,
 
       filter: filter.filterList, // filter function  
-      // why save these to state?
-      // to Jenn: we can make these default properties instead of state items    
-      renderGroup: render.renderGroup, // render prop
-      renderItem: render.renderItem, // render prop
-      renderSelected: null // render prop
     }
   }
     
@@ -55,7 +49,7 @@ export default class ReactDropdown extends Component {
         onClick={e => this.handleOnSelected(item)} 
         onMouseOver={e => this.handleOnMouseOver(item)}
         >
-        {this.state.renderItem(item, this.state)}
+        {this.props.renderItem(item, this.state)}
       </div>
     );
     return selectItem;
@@ -64,7 +58,7 @@ export default class ReactDropdown extends Component {
   renderDropdown(list) {
     return list.map((item, key) => {
       if (item.children != null && item.children.length > 0) {
-        return this.state.renderGroup(item, this.state, this.renderDropdown(item.children));
+        return this.props.renderGroup(item, this.state, this.renderDropdown(item.children));
       }
       else {
         return this.renderNodeItem(item);
@@ -277,4 +271,10 @@ export default class ReactDropdown extends Component {
 
   //https://codepen.io/takatama/pen/mVvbqx
   
+}
+
+ReactDropdown.defaultProps = {
+  renderItem: renderItem,
+  renderGroup: renderGroup,
+  renderSelected: renderSelected
 }
