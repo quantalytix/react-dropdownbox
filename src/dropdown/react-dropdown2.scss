@@ -73,6 +73,9 @@ $dropdown-color: #383838;
     flex-direction: column;
     top: 4px;
     margin-right: 5px;
+    &:focus {
+      outline: none;
+    }
     .arrow-up {
       width: 0; 
       height: 0; 
