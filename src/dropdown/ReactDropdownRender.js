@@ -1,7 +1,6 @@
 import React from 'react';
 
-class ReactDropdownRenderProps {
-  renderItem(item, state) {    
+  const renderItem = (item, state) => {    
     let selectItem = (
       <div>
         {item.text}
@@ -10,7 +9,7 @@ class ReactDropdownRenderProps {
     return selectItem;
   }
 
-  renderGroup(item, state, children) {
+  const renderGroup = (item, state, children) => {
     return (
       <div key={item.node}>
         <div className="dropdown-heading">{item.text.toUpperCase()}</div>
@@ -21,8 +20,8 @@ class ReactDropdownRenderProps {
     )
   }
 
-  renderSelected(item,state) {
+  const renderSelected = (item,state) => {
     return (<b>item.text</b>);
   }
-}
-export { ReactDropdownRenderProps };
+
+export {renderItem, renderGroup, renderSelected}
