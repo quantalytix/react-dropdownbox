@@ -88,15 +88,18 @@ export default class ReactDropdown extends Component {
     ) : null;
 
     return (
-      <div ref="dropdownbox" className="react-dropdown" onFocus={this.handleOnFocus} onChange={this.handleOnTextChange} onKeyDown={this.handleOnKeyDown} >
-        <div className="search">
-          <Textbox className="search-box" placeholder={this.props.placeholder} value={this.state.textInput} />
-          <div tabIndex="-1" className="search-dd">
-            <span className='arrow-up'></span>
-            <span className='arrow-down'></span>
+      <div ref={node => this.node = node}>
+        <div ref="dropdownbox" className="react-dropdown" onFocus={this.handleOnFocus} onChange={this.handleOnTextChange} onKeyDown={this.handleOnKeyDown} >
+          <div className="search">
+            <Textbox className="search-box" placeholder={this.props.placeholder} value={this.state.textInput} />
+            <div tabIndex="-1" className="search-dd">
+              <span className='arrow-up'></span>
+              <span className='arrow-down'></span>
+            </div>
           </div>
+          {dropdown}
         </div>
-        {dropdown}
+      
       </div>
     );
   }
@@ -248,11 +251,11 @@ export default class ReactDropdown extends Component {
   }
 
   componentDidMount() {
-    document.addEventListener('click', this.handleClick);
+    document.addEventListener('click', this.handleClick, false);
   }
 
   componentWillUnmount() {
-    document.removeEventListener('click', this.handleClick);
+    document.removeEventListener('click', this.handleClick, false);
   }
 
   
@@ -269,11 +272,16 @@ export default class ReactDropdown extends Component {
     
     // if there are multiple dropdowns rendered on a single page
     // will this logic create a problem?
-    let found = e.path.find(el => el.className === "react-dropdown")
-    if (!!!found) {
-      this.closeDropdown();
-      this.resetSelection();
+    // let found = e.path.find(el => el.className === "react-dropdown")
+    // if (!!!found) {
+    //   this.closeDropdown();
+    //   this.resetSelection();
+    // }
+    if (this.node.contains(e.target)) {
+      return
     }
+    this.closeDropdown();
+    this.resetSelection();
   }
 
   //https://codepen.io/takatama/pen/mVvbqx
