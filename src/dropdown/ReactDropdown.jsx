@@ -113,9 +113,10 @@ export default class ReactDropdown extends Component {
     let itemData = this.state.itemStack[index];
     if (itemData) {
       this.setState({
+        activeIndex: index,
         selectedIndex: index,
         selectedKey: itemData.key,
-        textInput: itemData.value.value
+        textInput: itemData.value.value,        
       });
     }
   }
@@ -127,13 +128,25 @@ export default class ReactDropdown extends Component {
     }));
   }
 
+  setNullState(){
+    this.setState({
+      textInput: null,
+      activeIndex: 0
+     });
+  }
+
   scrollIntoViewItem(refItem) {
     if(refItem != null)
       refItem.scrollIntoView({ block: 'end', behavior: 'smooth' });
   }
 
   resetSelection() {
-    this.setSelectedValue(this.state.selectedIndex);
+    if(this.state.selectedIndex == null){
+      this.setNullState();
+    }
+    else {
+      this.setSelectedValue(this.state.selectedIndex);      
+    }    
   }
 
   setActiveIndex(index) {
@@ -224,10 +237,13 @@ export default class ReactDropdown extends Component {
     document.removeEventListener('click', this.handleClick);
   }
 
+  // if there are multiple dropdowns rendered on a single page
+  // will this logic create a problem?
   handleClick = (e) => {
     let found = e.path.find(el => el.className === "react-dropdown")
     if (!!!found) {
       this.closeDropdown();
+      this.resetSelection();
     }
   }
 
