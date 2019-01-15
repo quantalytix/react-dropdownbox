@@ -137,7 +137,7 @@ export default class ReactDropdown extends Component {
 
   setNullState(){
     this.setState({
-      textInput: null,
+      textInput: '',
       activeIndex: 0
      });
   }
