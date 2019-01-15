@@ -122,10 +122,10 @@ export default class ReactDropdown extends Component {
     }
   }
 
-  setActiveItem(index, item) {
+  setActiveItem(index, item, updateText = true) {
     this.setState(prevState => ({
       activeIndex: index,
-      textInput: item.value.value
+      textInput:  item.value.value
     }));
   }
 
@@ -226,8 +226,8 @@ export default class ReactDropdown extends Component {
   }
 
   handleOnMouseOver(item) {
-    let i = this.state.itemStack[item.node];
-    this.setActiveItem(item.node, i);
+    //let i = this.state.itemStack[item.node];
+    this.setActiveIndex(item.node);
   }
 
   componentDidMount() {

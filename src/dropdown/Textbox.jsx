@@ -18,6 +18,7 @@ export default class Textbox extends Component {
 
   focusTextInput() {
     this.textInput.current.focus();
+    this.textInput.current.select();
   }
 
   handleChange(e) {
@@ -26,13 +27,13 @@ export default class Textbox extends Component {
   }
 
   handleOnBlur(e) {
-    this.setState({ focused: false });
+    this.setState({ focused: false });    
     if (this.props.hasOwnProperty('onBlur'))
       this.props.onBlur(e);
   }
 
   handleOnFocus(e) {
-    this.setState({ focused: true });
+    this.setState({ focused: true });    
     this.focusTextInput();
     if (this.props.hasOwnProperty('onFocus'))
       this.props.onFocus(e);
