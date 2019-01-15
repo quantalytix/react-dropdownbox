@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import Textbox from './Textbox';
 import { ReactDropdownHelper } from './ReactDropdownHelper';
 import { ReactDropdownRenderProps } from './ReactDropdownRender';
+import { ReactDropdownFilter } from './ReactDropdownFilter';
 import './react-dropdown2.scss';
 
 export default class ReactDropdown extends Component {
@@ -11,11 +12,12 @@ export default class ReactDropdown extends Component {
 
     this.handleOnSelected = this.handleOnSelected.bind(this);    
     this.handleOnFocus = this.handleOnFocus.bind(this);
-    this.handleOnChange = this.handleOnChange.bind(this);    
+    this.handleOnTextChange = this.handleOnTextChange.bind(this);    
     this.handleOnKeyDown = this.handleOnKeyDown.bind(this);
 
     let helper = new ReactDropdownHelper();
     let render = new ReactDropdownRenderProps();
+    let filter = new ReactDropdownFilter();
 
     let result = helper.createInternalNodeArray(this.props.data);
     let internalData = result.array;
@@ -34,8 +36,9 @@ export default class ReactDropdown extends Component {
       count: count,
       internalData: internalData,
 
-      filter: null, // filter function  
-      // why save these to state?    
+      filter: filter.filterList, // filter function  
+      // why save these to state?
+      // to Jenn: we can make these default properties instead of state items    
       renderGroup: render.renderGroup, // render prop
       renderItem: render.renderItem, // render prop
       renderSelected: null // render prop
@@ -85,7 +88,7 @@ export default class ReactDropdown extends Component {
     ) : null;
 
     return (
-      <div ref="dropdownbox" className="react-dropdown" onFocus={this.handleOnFocus} onChange={this.handleOnChange} onKeyDown={this.handleOnKeyDown} >
+      <div ref="dropdownbox" className="react-dropdown" onFocus={this.handleOnFocus} onChange={this.handleOnTextChange} onKeyDown={this.handleOnKeyDown} >
         <div className="search">
           <Textbox className="search-box" placeholder={this.props.placeholder} value={this.state.textInput} />
           <div tabIndex="-1" className="search-dd">
@@ -209,9 +212,23 @@ export default class ReactDropdown extends Component {
   }
 
 
-  handleOnChange(e) {
+  handleOnTextChange(e) {
+    let textValue = e.target.value;
+    let searchWords = textValue.split(' ');
+
+    let result = [];
+    if (textValue === '') {
+      let helper = new ReactDropdownHelper();
+      let nodeArray = helper.createInternalNodeArray(this.props.data);
+      result = nodeArray.array;
+    }
+    else {
+      result = this.state.filter(this.state.internalData, searchWords)
+    }
+    
     this.setState({
-      textInput: e.target.value
+      internalData: result,
+      textInput: textValue
     });
     console.log('handleChange(e)');
   }
