@@ -26,6 +26,10 @@ class App extends Component {
           { key: 2, text:'Jenn', value: 'Jenn' },
           { key: 3, text:'Will', value: 'Will' },
           { key: 3, text:'Chris', value: 'Chris' },
+          { key: 3, text:'Bradley', value: 'Bradley' },
+          { key: 3, text:'Ben', value: 'Ben' },
+          { key: 3, text:'Min', value: 'Min' },
+          { key: 3, text:'Luke', value: 'Luke' }          
         ]
       }
     ]
