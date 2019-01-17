@@ -33,7 +33,7 @@ export default class ReactDropdown extends Component {
       count: count,
       internalData: internalData,
 
-      filter: filter.filterList, // filter function  
+      filter: filter.filterList, // filter function  (can this be a prop?)
     }
   }
     
@@ -212,20 +212,30 @@ export default class ReactDropdown extends Component {
     let searchWords = textValue.split(' ');
 
     let result = [];
-    if (textValue === '') {
-      let helper = new ReactDropdownHelper();
+    let count = 0;
+    let helper = new ReactDropdownHelper(); 
+
+    if (textValue === '') {    
       let nodeArray = helper.createInternalNodeArray(this.props.data);
       result = nodeArray.array;
+      count = nodeArray.count;
     }
-    else {
-      result = this.state.filter(this.state.internalData, searchWords)
+    else {      
+      let filtered = this.state.filter(this.props.data, searchWords);             
+      let nodes = helper.createInternalNodeArray(filtered);      
+      result = nodes.array;
+      count = nodes.count;      
     }
+
+    let selectables = helper.flattenData(result);
     
-    this.setState({
-      internalData: result,
-      textInput: textValue
-    });
-    console.log('handleChange(e)');
+    this.setState({      
+      textInput: textValue,
+      activeIndex: 0,
+      itemStack: selectables,
+      count: count,
+      internalData: result
+    });    
   }
 
   handleOnFocus(e) {
