@@ -10,9 +10,9 @@ export default class ReactDropdown extends Component {
   constructor(props) {
     super(props);
 
-    this.handleOnSelected = this.handleOnSelected.bind(this);    
+    this.handleOnSelected = this.handleOnSelected.bind(this);
     this.handleOnFocus = this.handleOnFocus.bind(this);
-    this.handleOnTextChange = this.handleOnTextChange.bind(this);    
+    this.handleOnTextChange = this.handleOnTextChange.bind(this);
     this.handleOnKeyDown = this.handleOnKeyDown.bind(this);
 
     let helper = new ReactDropdownHelper();
@@ -36,7 +36,7 @@ export default class ReactDropdown extends Component {
       filter: filter.filterList, // filter function  (can this be a prop?)
     }
   }
-    
+
   renderNodeItem(item) {
     let itemStyle = (this.state.activeIndex === item.node) ? 'dropdown-item-selected' : 'dropdown-item';
     let selectItem = (
@@ -46,9 +46,9 @@ export default class ReactDropdown extends Component {
         item={item}
         className={itemStyle}
         key={item.node}
-        onClick={e => this.handleOnSelected(item)} 
+        onClick={e => this.handleOnSelected(item)}
         onMouseOver={e => this.handleOnMouseOver(item)}
-        >
+      >
         {this.props.renderItem(item, this.state)}
       </div>
     );
@@ -91,7 +91,7 @@ export default class ReactDropdown extends Component {
           </div>
           {dropdown}
         </div>
-      
+
       </div>
     );
   }
@@ -115,7 +115,7 @@ export default class ReactDropdown extends Component {
         activeIndex: index,
         selectedIndex: index,
         selectedKey: itemData.key,
-        textInput: itemData.value.value,        
+        textInput: itemData.value.value,
       });
     }
   }
@@ -123,29 +123,29 @@ export default class ReactDropdown extends Component {
   setActiveItem(index, item, updateText = true) {
     this.setState(prevState => ({
       activeIndex: index,
-      textInput:  item.value.value
+      textInput: item.text
     }));
   }
 
-  setNullState(){
+  setNullState() {
     this.setState({
       textInput: '',
       activeIndex: 0
-     });
+    });
   }
 
   scrollIntoViewItem(refItem) {
-    if(refItem != null)
+    if (refItem != null)
       refItem.scrollIntoView({ block: 'end', behavior: 'smooth' });
   }
 
   resetSelection() {
-    if(this.state.selectedIndex == null){
+    if (this.state.selectedIndex == null) {
       this.setNullState();
     }
     else {
-      this.setSelectedValue(this.state.selectedIndex);      
-    }    
+      this.setSelectedValue(this.state.selectedIndex);
+    }
   }
 
   setActiveIndex(index) {
@@ -168,6 +168,8 @@ export default class ReactDropdown extends Component {
       this.setActiveIndex(index);
     }
   }
+
+
 
 
   handleOnKeyDown(e) {
@@ -213,29 +215,29 @@ export default class ReactDropdown extends Component {
 
     let result = [];
     let count = 0;
-    let helper = new ReactDropdownHelper(); 
+    let helper = new ReactDropdownHelper();
 
-    if (textValue === '') {    
+    if (textValue === '') {
       let nodeArray = helper.createInternalNodeArray(this.props.data);
       result = nodeArray.array;
       count = nodeArray.count;
     }
-    else {      
-      let filtered = this.state.filter(this.props.data, searchWords);             
-      let nodes = helper.createInternalNodeArray(filtered);      
+    else {
+      let filtered = this.state.filter(this.props.data, searchWords);
+      let nodes = helper.createInternalNodeArray(filtered);
       result = nodes.array;
-      count = nodes.count;      
+      count = nodes.count;
     }
 
     let selectables = helper.flattenData(result);
-    
-    this.setState({      
+
+    this.setState({
       textInput: textValue,
       activeIndex: 0,
       itemStack: selectables,
       count: count,
       internalData: result
-    });    
+    });
   }
 
   handleOnFocus(e) {
@@ -260,7 +262,7 @@ export default class ReactDropdown extends Component {
     document.removeEventListener('click', this.handleClick, false);
   }
 
-  
+
   handleClick = (e) => {
     /*
     // we can use a forwardRef to potentially solve this...
@@ -280,11 +282,13 @@ export default class ReactDropdown extends Component {
   }
 
   //https://codepen.io/takatama/pen/mVvbqx
-  
+
 }
 
 ReactDropdown.defaultProps = {
   renderItem: renderItem,
   renderGroup: renderGroup,
-  renderSelected: renderSelected
+  renderSelected: renderSelected,
+
+  selectGroupings: false
 }
