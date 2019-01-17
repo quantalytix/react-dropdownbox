@@ -154,23 +154,38 @@ export default class ReactDropdown extends Component {
     }));
   }
 
+  // need to circle back and see why this actually works lol
+  // the current recurssion shouldn't allow this to work correctly
+  // when scrolling items into view... 
   moveActiveIndex(currentIndex, i) {
     let index = currentIndex + i;
-    let newItemRef = this.getActiveItemRef(index);
-    if (newItemRef != null) {
-      let item = this.state.itemStack[index];
-      this.setActiveItem(index, item);
-      this.scrollIntoViewItem(newItemRef);
+    let item = this.state.itemStack[index];
+
+    if (item != null) {
+      if (item.isGroup & this.props.selectGroupings === false) {
+        if (index < this.state.count & index > 0) {
+          this.moveActiveIndex(index, i);
+          let currentRef = this.getActiveItemRef(currentIndex);
+          this.scrollIntoViewItem(currentRef);
+          this.setActiveIndex(index);
+        }
+      }
+      else {
+        let newItemRef = this.getActiveItemRef(index);
+        if (newItemRef != null) {
+          let item = this.state.itemStack[index];
+          this.setActiveItem(index, item);
+          this.scrollIntoViewItem(newItemRef);
+        }
+        else {
+          let currentRef = this.getActiveItemRef(currentIndex);
+          this.scrollIntoViewItem(currentRef);
+          this.setActiveIndex(index);
+        }
+      }
     }
-    else {
-      let currentRef = this.getActiveItemRef(currentIndex);
-      this.scrollIntoViewItem(currentRef);
-      this.setActiveIndex(index);
-    }
+
   }
-
-
-
 
   handleOnKeyDown(e) {
     //console.log(e.target);
