@@ -3,7 +3,7 @@ import Textbox from './Textbox';
 import { ReactDropdownHelper } from './ReactDropdownHelper';
 import { renderItem, renderGroup, renderSelected } from './ReactDropdownRender';
 import { filterList } from './ReactDropdownFilter';
-import './react-dropdown2.scss';
+import './react-dropdown.scss';
 
 export default class ReactDropdown extends Component {
   constructor(props) {
