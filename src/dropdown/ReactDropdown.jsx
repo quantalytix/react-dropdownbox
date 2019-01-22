@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-//import ReactDOM from 'react-dom';
 import Textbox from './Textbox';
 import { ReactDropdownHelper } from './ReactDropdownHelper';
 import { renderItem, renderGroup, renderSelected } from './ReactDropdownRender';
-import { ReactDropdownFilter } from './ReactDropdownFilter';
-import './react-dropdown2.scss';
+import { filterList } from './ReactDropdownFilter';
+import './react-dropdown.scss';
 
 export default class ReactDropdown extends Component {
   constructor(props) {
@@ -16,7 +15,6 @@ export default class ReactDropdown extends Component {
     this.handleOnKeyDown = this.handleOnKeyDown.bind(this);
 
     let helper = new ReactDropdownHelper();
-    let filter = new ReactDropdownFilter();
 
     let result = helper.createInternalNodeArray(this.props.data);
     let internalData = result.array;
@@ -32,8 +30,6 @@ export default class ReactDropdown extends Component {
       itemStack: selectables,
       count: count,
       internalData: internalData,
-
-      filter: filter.filterList, // filter function  (can this be a prop?)
     }
   }
 
@@ -238,7 +234,7 @@ export default class ReactDropdown extends Component {
       count = nodeArray.count;
     }
     else {
-      let filtered = this.state.filter(this.props.data, searchWords);
+      let filtered = this.props.filter(this.props.data, searchWords);
       let nodes = helper.createInternalNodeArray(filtered);
       result = nodes.array;
       count = nodes.count;
@@ -304,6 +300,7 @@ ReactDropdown.defaultProps = {
   renderItem: renderItem,
   renderGroup: renderGroup,
   renderSelected: renderSelected,
+  filter: filterList,
 
   selectGroupings: false
 }
