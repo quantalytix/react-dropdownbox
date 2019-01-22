@@ -14,22 +14,46 @@ export default class ReactDropdown extends Component {
     this.handleOnTextChange = this.handleOnTextChange.bind(this);
     this.handleOnKeyDown = this.handleOnKeyDown.bind(this);
 
-    let helper = new ReactDropdownHelper();
-
-    let result = helper.createInternalNodeArray(this.props.data);
-    let internalData = result.array;
-    let count = result.count;
-    let selectables = helper.flattenData(internalData);
+    this.helper = new ReactDropdownHelper();
 
     this.state = {
       dropdownVisible: false,
       textInput: '',
-      activeIndex: 0,
       selectedIndex: null,
       selectedKey: null,
-      itemStack: selectables,
-      count: count,
-      internalData: internalData,
+      activeIndex: 0,
+      itemStack: [],
+      count: [],
+      internalData: [],
+    }
+  }
+
+   componentDidMount() {
+    document.addEventListener('click', this.handleClick, false);
+    if (this.props.data && this.props.data.length !== 0) {
+      let result = this.helper.createInternalNodeArray(this.props.data)
+      let internalData = result.array;
+      let count = result.count;
+      let selectables = this.helper.flattenData(internalData);
+      this.setState({
+        itemStack: selectables,
+        count: count,
+        internalData: internalData
+      })
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.data !== this.props.data) {
+      let result = this.helper.createInternalNodeArray(this.props.data)
+      let internalData = result.array;
+      let count = result.count;
+      let selectables = this.helper.flattenData(internalData);
+      this.setState({
+        itemStack: selectables,
+        count: count,
+        internalData: internalData
+      })
     }
   }
 
@@ -264,15 +288,6 @@ export default class ReactDropdown extends Component {
     //let i = this.state.itemStack[item.node];
     this.setActiveIndex(item.node);
   }
-
-  componentDidMount() {
-    document.addEventListener('click', this.handleClick, false);
-  }
-
-  componentWillUnmount() {
-    document.removeEventListener('click', this.handleClick, false);
-  }
-
 
   handleClick = (e) => {
     /*
