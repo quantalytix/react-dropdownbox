@@ -35,7 +35,7 @@ class App extends Component {
     ]
 
     return (
-      <div className="App" style={{ height: '100vh', background: '#1A1A1A', paddingRight: '20px'}}>
+      <div className="App" style={{ height: '100vh', background: '#1A1A1A', paddingRight: '20px', padding: '10px'}}>
       <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gridGap: '10px'}}>
         <ReactDropdown data={sampleList} placeholder='search or select'/>
         <ReactDropdown data={sampleList} placeholder='search or select'/>
