@@ -3,6 +3,7 @@ import { createInternalNodeArray, flattenData } from './ReactDropdownHelper';
 import { filterList } from './ReactDropdownFilter';
 import SearchBox from './SearchBox'
 import ResultsContainer from './ResultsContainer'
+import PropTypes from 'prop-types';
 import './react-dropdown.scss';
 
 const initialState = {
@@ -253,6 +254,19 @@ ReactDropdown.defaultProps = {
     height: '30px',
     fontSize: 'inherit',
   },
-  onSelect: () => {},
   selectGroupings: false
+}
+
+ReactDropdown.propTypes = {
+  data: PropTypes.shape({
+    key: PropTypes.number,
+    text: PropTypes.string,
+    value: PropTypes.any
+  }).isRequired,
+  onSelect: PropTypes.func.isRequired,
+  initialValue: PropTypes.string.isRequired,
+  placeholder: PropTypes.string,
+  theme: PropTypes.object,
+  filter: PropTypes.func,
+  selectGroupings: PropTypes.bool
 }
