@@ -2,7 +2,7 @@ import React, { useContext, useRef } from 'react';
 import {ReactDropdownContext} from './ReactDropdown'
 
 export default function SearchBox({placeholder, value, theme, icon, ...otherProps}) {
-  const textInput = useRef()
+  const input = useRef()
   const context = useContext(ReactDropdownContext)
 
   const handleChange = (e) => {
@@ -18,17 +18,16 @@ export default function SearchBox({placeholder, value, theme, icon, ...otherProp
   }
 
   const focusTextInput = (e) => {
-    let input = textInput.current
-    input.focus()
-    input.select()
+    input.current.focus()
+    input.current.select()
   }
 
     return (
       <div className='search-box' style={theme}>
         <div className={context.showResult ? 'result-div show' : 'result-div'} tabIndex="0" onFocus={handleOnFocus} style={{width: `calc(${theme.width} - 20px)`}}>
-          <span>{value}</span>
+          <span>{context.textInput || placeholder}</span>
         </div>
-        <input className={context.showResult ? 'input-box' : 'input-box show'} ref={textInput} placeholder={placeholder} onChange={handleChange} tabIndex="0"/>
+        <input className={context.showResult ? 'input-box' : 'input-box show'} ref={input} placeholder={placeholder} onChange={handleChange} tabIndex="0"/>
         <div className="dropdown-icon" tabIndex="-1">
           { icon ? <div className={icon}></div> 
           : 
