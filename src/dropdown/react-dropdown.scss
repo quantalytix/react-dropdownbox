@@ -1,14 +1,15 @@
 
-$dropdown-color: #21211D;
-$background-color: #1A1A1A;
+$dropdown-color: #1A1A1A;
+$background-color: #0D0D0D;
 $accent-color: #009BE7;
-$accent-color-2: lighten($background-color, 20%);
+$border-color: lighten(#252526, 10%);
 
 .react-dropdown {
   position: relative;
   display: inline-block;
   width: 100%;
   box-sizing: border-box;
+  border: 1px solid $border-color;
   cursor: pointer;
   .results-container {
     display: none;
@@ -23,8 +24,7 @@ $accent-color-2: lighten($background-color, 20%);
     overflow-x: auto;
     resize: vertical;
     width: 100%;
-    padding: 4px;
-    width: 100%;
+    box-shadow: 0 0 4px 1px black;
     &.show {
       display: block
     }
@@ -39,7 +39,7 @@ $accent-color-2: lighten($background-color, 20%);
   .dropdown-item {
     font-weight: lighter;
     cursor: pointer;
-    padding: 5px;
+    padding: 8px;
     &.selected {
       background-color: $accent-color;
     }
@@ -58,8 +58,7 @@ $accent-color-2: lighten($background-color, 20%);
       white-space: nowrap;
       text-overflow: ellipsis;
       overflow: hidden;
-      //btn
-
+      width: 100%;
       &.show {
         display: block;
       }
