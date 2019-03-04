@@ -254,15 +254,16 @@ ReactDropdown.defaultProps = {
     height: '30px',
     fontSize: 'inherit',
   },
-  selectGroupings: false
+  selectGroupings: false,
 }
 
 ReactDropdown.propTypes = {
-  data: PropTypes.shape({
-    key: PropTypes.number,
-    text: PropTypes.string,
-    value: PropTypes.any
-  }).isRequired,
+  // data: PropTypes.shape({
+  //   key: PropTypes.number,
+  //   text: PropTypes.string,
+  //   value: PropTypes.any
+  // }).isRequired,
+  data: PropTypes.array.isRequired,
   onSelect: PropTypes.func.isRequired,
   initialValue: PropTypes.string.isRequired,
   placeholder: PropTypes.string,
