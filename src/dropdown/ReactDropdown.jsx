@@ -258,12 +258,12 @@ ReactDropdown.defaultProps = {
 }
 
 ReactDropdown.propTypes = {
-  // data: PropTypes.shape({
-  //   key: PropTypes.number,
-  //   text: PropTypes.string,
-  //   value: PropTypes.any
-  // }).isRequired,
-  data: PropTypes.array.isRequired,
+  data: PropTypes.arrayOf(PropTypes.shape({
+    key: PropTypes.number.isRequired,
+    text: PropTypes.string.isRequired,
+    value: PropTypes.any.isRequired,
+    children: PropTypes.arrayOf(PropTypes.object)
+  })).isRequired,
   onSelect: PropTypes.func.isRequired,
   initialValue: PropTypes.string.isRequired,
   placeholder: PropTypes.string,
