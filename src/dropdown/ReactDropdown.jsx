@@ -250,7 +250,7 @@ export default function ReactDropdown ({data, selectGroupings, onSelect, filter,
 ReactDropdown.defaultProps = {
   filter: filterList,
   theme: {
-    height: '22px',
+    height: '30px',
     fontSize: 'inherit',
   },
   onSelect: () => {},
