@@ -1,6 +1,6 @@
 {
   "name": "@quantalytix/react-dropdownbox",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "A lightweight react select box that allows for nested and grouped results.",
   "author": "quantalytix",
   "license": "MIT",
