@@ -1,5 +1,5 @@
 import React, { useContext, useRef } from 'react';
-import {ReactDropdownContext} from './ReactDropdown'
+import ReactDropdownContext from './ReactDropdownContext';
 
 export default function SearchBox({placeholder, initialValue, theme, icon, ...otherProps}) {
   const input = useRef()

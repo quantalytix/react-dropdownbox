@@ -1,5 +1,5 @@
 import React, {useContext} from 'react'
-import {ReactDropdownContext} from './ReactDropdown'
+import ReactDropdownContext from './ReactDropdownContext';
 
 export default function DropdownItem({item}) {
   const {activeIndex, handleOnMouseOver, handleOnSelected} = useContext(ReactDropdownContext)

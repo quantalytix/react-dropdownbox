@@ -4,6 +4,8 @@ import { filterList } from './ReactDropdownFilter';
 import SearchBox from './SearchBox'
 import ResultsContainer from './ResultsContainer'
 import PropTypes from 'prop-types';
+import ReactDropdownContext from './ReactDropdownContext';
+
 import './react-dropdown.scss';
 
 const initialState = {
@@ -17,7 +19,7 @@ const initialState = {
   internalData: [],
   showResult: true,
 }
-export const ReactDropdownContext = React.createContext()
+
 
 const reducer = (state, action) => {
   switch(action.type) {

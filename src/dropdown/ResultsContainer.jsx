@@ -1,5 +1,5 @@
 import React, {useContext} from 'react'
-import {ReactDropdownContext} from './ReactDropdown'
+import ReactDropdownContext from './ReactDropdownContext';
 import DropdownItem from './DropdownItem'
 
 export default function ResultsContainer() {

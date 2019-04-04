@@ -1,0 +1,82 @@
+.react-dropdown {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #3e3e40;
+  cursor: pointer; }
+  .react-dropdown .results-container {
+    display: none;
+    background: #1a1a1a;
+    font-weight: bold;
+    color: white;
+    height: 300px;
+    display: none;
+    position: absolute;
+    z-index: 1;
+    overflow-y: scroll;
+    overflow-x: auto;
+    resize: vertical;
+    width: 100%;
+    box-shadow: 0 0 4px 1px black; }
+    .react-dropdown .results-container.show {
+      display: block; }
+    .react-dropdown .results-container .dropdown-heading {
+      background: black;
+      color: #787a81;
+      padding: 7px 5px;
+      cursor: default; }
+  .react-dropdown .dropdown-item {
+    font-weight: lighter;
+    cursor: pointer;
+    padding: 8px; }
+    .react-dropdown .dropdown-item.selected {
+      background-color: #009BE7; }
+  .react-dropdown .search-box {
+    width: 100%;
+    color: #FFFFFF;
+    display: flex;
+    align-items: center; }
+    .react-dropdown .search-box .result-div {
+      display: none;
+      z-index: 1;
+      position: absolute;
+      padding: 0 10px;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      width: 100%; }
+      .react-dropdown .search-box .result-div.show {
+        display: block; }
+    .react-dropdown .search-box .input-box {
+      display: none;
+      position: absolute;
+      width: 100%;
+      background: transparent;
+      color: #FFFFFF;
+      font-size: inherit;
+      border: none;
+      padding: 0 25px 0 10px;
+      overflow: hidden;
+      text-overflow: ellipsis; }
+      .react-dropdown .search-box .input-box.show {
+        display: block; }
+      .react-dropdown .search-box .input-box:focus {
+        outline: none; }
+  .react-dropdown .dropdown-icon {
+    margin-left: auto;
+    padding-right: 10px;
+    color: #787a81; }
+    .react-dropdown .dropdown-icon:focus {
+      outline: none; }
+    .react-dropdown .dropdown-icon .arrows {
+      display: flex; }
+      .react-dropdown .dropdown-icon .arrows i {
+        border: solid white;
+        border-width: 0 2px 2px 0;
+        display: inline-block;
+        padding: 4px;
+        margin-bottom: 5px; }
+        .react-dropdown .dropdown-icon .arrows i.arrow-down2 {
+          transform: rotate(45deg);
+          -webkit-transform: rotate(45deg); }
