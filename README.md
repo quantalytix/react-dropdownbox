@@ -7,7 +7,7 @@
 ## Install
 
 ```bash
-npm install --save dropdownbox
+npm install --save react-dropdownbox // this will not work because the library is not published
 ```
 
 ## Usage
@@ -15,12 +15,13 @@ npm install --save dropdownbox
 ```jsx
 import React, { Component } from 'react'
 
-import MyComponent from 'dropdownbox'
+import ReactDropdown from 'react-dropdownbox'
+import 'react-dropdownbox/dist/index.es.css'
 
 class Example extends Component {
   render () {
     return (
-      <MyComponent />
+      <ReactDropdown />
     )
   }
 }
@@ -28,4 +29,4 @@ class Example extends Component {
 
 ## License
 
-MIT © [chrisaliotta](https://github.com/chrisaliotta)
+MIT © [quantalytix](https://github.com/quantalytix)
