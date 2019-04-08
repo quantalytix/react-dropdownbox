@@ -18,8 +18,11 @@ npm i @quantalytix/react-dropdownbox
 ```jsx
 import React, { Component } from 'react'
 
+// library reference
 import ReactDropdown from '@quantalytix/react-dropdownbox'
+// library stylesheet
 import '@quantalytix/react-dropdownbox/dist/index.es.css'
+//or import '@quantalytix/react-dropdownbox/sass/react-dropdown.scss'
 
 class Example extends Component {
   render () {
@@ -59,6 +62,10 @@ class Example extends Component {
   }
 }
 ```
+
+## Sass Styles
+
+The Sass style sheet can be found in the following path `'@quantalytix/react-dropdownbox/sass/react-dropdown.scss'` under the node_modules folder. To modify the style copy this file into your local application and change the style reference in your import statement.
 
 ## License
 
