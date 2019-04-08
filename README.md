@@ -9,9 +9,7 @@
 ```bash
 npm i @quantalytix/react-dropdownbox
 ```
-## Demo
-
-![alt text](https://raw.githubusercontent.com/quantalytix/react-dropdownbox/master/docs/img/dropdown-sample.png "Dropdown Demo Image")
+## Demo Screenshot
 
 ![ScreenShot](/docs/img/dropdown-sample.png)
 
