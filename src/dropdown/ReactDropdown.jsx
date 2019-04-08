@@ -6,7 +6,7 @@ import ResultsContainer from './ResultsContainer'
 import PropTypes from 'prop-types';
 import ReactDropdownContext from './ReactDropdownContext';
 
-import './react-dropdown.scss';
+import '../../sass/react-dropdown.scss';
 
 const initialState = {
   dropdownVisible: false,
