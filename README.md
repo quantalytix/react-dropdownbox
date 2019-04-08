@@ -13,6 +13,8 @@ npm i @quantalytix/react-dropdownbox
 
 ![alt text](https://raw.githubusercontent.com/quantalytix/react-dropdownbox/master/docs/img/dropdown-sample.png "Dropdown Demo Image")
 
+![ScreenShot](/docs/img/dropdown-sample.png)
+
 ## Usage
 
 ```jsx
