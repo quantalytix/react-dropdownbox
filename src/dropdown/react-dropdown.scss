@@ -1,8 +1,14 @@
 
-$dropdown-color: #1A1A1A;
-$background-color: #0D0D0D;
+$dropdown-color: #FFFFFF;
+$background-color: #FFFFFF;
 $accent-color: #009BE7;
 $border-color: lighten(#252526, 10%);
+$drowpdown-text-color: #000000;
+$input-text-color: #000000;
+
+.indent {
+  padding-left: 20px;
+}
 
 .react-dropdown {
   position: relative;
@@ -13,9 +19,9 @@ $border-color: lighten(#252526, 10%);
   cursor: pointer;
   .results-container {
     display: none;
-    background: rgb(26, 26, 26);
+    background: $dropdown-color;
     font-weight: bold;
-    color: white;
+    color: $drowpdown-text-color;
     height: 300px;
     display: none;
     position: absolute;
@@ -29,7 +35,7 @@ $border-color: lighten(#252526, 10%);
       display: block
     }
     .dropdown-heading {
-      background: black;
+      background: $dropdown-color;
       color: #787a81;
       padding: 7px 5px;
       cursor: default;
@@ -47,7 +53,7 @@ $border-color: lighten(#252526, 10%);
 
   .search-box {
     width: 100%;
-    color: #FFFFFF;
+    color: $input-text-color;
     display: flex;
     align-items: center;
     .result-div {
@@ -68,7 +74,7 @@ $border-color: lighten(#252526, 10%);
       position: absolute;
       width: 100%;
       background: transparent;
-      color: #FFFFFF;
+      color: $input-text-color;
       font-size: inherit;
       border: none;
       padding: 0 25px 0 10px;
@@ -92,7 +98,7 @@ $border-color: lighten(#252526, 10%);
     .arrows {
       display: flex;
       i {
-        border: solid white;
+        border: solid grey;
         border-width: 0 2px 2px 0;
         display: inline-block;
         padding: 4px;
